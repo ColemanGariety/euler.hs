@@ -1,5 +1,5 @@
 -- -- From haskell.com:
--- 
+--
 -- specialTriplet sum = [[a,b,c] | m <- [2..limit],
 --                                 n <- [1..(m-1)],
 --                                 let a = m^2 - n^2,
@@ -11,15 +11,16 @@
 -- My implementation is a zillion times faster:
 
 isInt :: RealFrac a => a -> Bool
-isInt x = x == fromInteger (round x) 
+isInt sum = sum == fromInteger (round sum)
 
 specialTriplet :: Integer -> Integer
-specialTriplet sum =
-  go (fromInteger (quot sum 3))
-  where x = (fromInteger sum)
-        go a
-          | isInt b = round (a * b * (x - b - a))
-          | otherwise = go (a - 1)
-          where b = ((x^2 / 2) - (x * a)) / (x - a)
+specialTriplet sum0 = go a0 where
+  a0 = fromInteger (quot sum0 3)
+  sum = fromInteger sum0
+  go a =
+    let b = ((sum^2 / 2) - (sum * a)) / (sum - a) in
+    if isInt b
+      then round (a * b * (sum - b - a))
+      else go (a - 1)
 
 main = print $ specialTriplet 1000
