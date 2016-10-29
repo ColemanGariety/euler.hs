@@ -1,6 +1,7 @@
-dist
+*
+!*.*
+!*/
+*.o
+*.hi
 ChangeLog.md
 Setup.hs
-*haskell*
-*.hi
-*.o
