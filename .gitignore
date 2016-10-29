@@ -3,5 +3,6 @@
 !*/
 *.o
 *.hi
+dist
 ChangeLog.md
 Setup.hs
