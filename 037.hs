@@ -1,12 +1,11 @@
 import Data.Numbers.Primes
 
-truncatablePrimes = sum $ take 11 [x | x <- primes,
+truncatablePrimes = sum $ take 11 [x | x <- (drop 4 primes),
                                        all (isPrime) (truncl (show x)),
-                                       all (isPrime) (truncr (show x)),
-                                       not $ elem x [2,3,5,7]]
+                                       all (isPrime) (truncr (show x))]
   where truncl [] = []
-        truncl all = read all : truncl (tail all) 
+        truncl xs = read xs : truncl (tail xs) 
         truncr [] = []
-        truncr all = read all : truncr (init all)
+        truncr xs = read xs : truncr (init xs)
 
 main = print truncatablePrimes
