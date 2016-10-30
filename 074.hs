@@ -1,13 +1,16 @@
-import qualified Data.Set as Set
+import Data.List
+import Data.Tuple
+import qualified Data.IntSet as Set
+import qualified Data.Vector.Unboxed as Vector
 
-digits :: Integral x => x -> [x]
-digits 0 = []
-digits x = mod x 10 : digits (div x 10)
+digitFacts :: Vector.Vector Int
+digitFacts = Vector.fromList ([1,1,2,6,24,120,720,5040,40320,362880] :: [Int])
 
-digitFacts = [1,1,2,6,24,120,720,5040,40320,362880]
+factDigitSum = foldl' (+) 0 . map (digitFacts Vector.!) . unfoldr (\x -> if x == 0
+                                                                         then Nothing
+                                                                         else Just (swap (quotRem x 10)))
 
-factDigitSum n = sum $ map (digitFacts !!) (digits n)
-
+genChain :: Int -> Set.IntSet
 genChain s = go s Set.empty where
   go link chain =
     let next = factDigitSum link in
@@ -15,6 +18,7 @@ genChain s = go s Set.empty where
     then chain
     else go next (Set.insert next chain)
 
+digitFactChains :: Int -> Int -> Int
 digitFactChains cap len = length [x | x <- [1..cap], Set.size (genChain x) == len - 1]
                
 main = print $  digitFactChains 1000000 60
