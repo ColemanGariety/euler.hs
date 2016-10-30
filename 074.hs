@@ -1,18 +1,20 @@
+import qualified Data.Set as Set
+
 digits :: Integral x => x -> [x]
 digits 0 = []
-digits x = x `mod` 10 : digits (x `div` 10)
+digits x = mod x 10 : digits (div x 10)
 
-fact n = product [1..n]
+digitFacts = [1,1,2,6,24,120,720,5040,40320,362880]
 
-factDigitSum n = sum $ map (fact) (digits n)
+factDigitSum n = sum $ map (digitFacts !!) (digits n)
 
-genChain s = go [s]
-  where go chain =
-          let next = factDigitSum . last $ chain in
-          if (elem next chain)
-          then chain ++ [next]
-          else go (chain ++ [next])
+genChain s = go s Set.empty where
+  go link chain =
+    let next = factDigitSum link in
+    if Set.member next chain
+    then chain
+    else go next (Set.insert next chain)
 
-digitFactChains cap len = length [x | x <- [1..cap], length (genChain x) == len]
+digitFactChains cap len = length [x | x <- [1..cap], Set.size (genChain x) == len - 1]
                
-main = print $ digitFactChains 10 2
+main = print $  digitFactChains 1000000 60
