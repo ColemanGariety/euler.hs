@@ -1,11 +1,15 @@
 import Data.Numbers.Primes
 
-truncatablePrimes = sum $ take 11 [x | x <- (drop 4 primes),
-                                       all (isPrime) (truncl (show x)),
-                                       all (isPrime) (truncr (show x))]
-  where truncl [] = []
-        truncl xs = read xs : truncl (tail xs) 
-        truncr [] = []
-        truncr xs = read xs : truncr (init xs)
+truncl :: Integral t => t -> [t]
+truncl 0 = []
+truncl n = n : truncl (mod n (10 ^ (floor (logBase 10 (fromIntegral n)))))
 
+truncr :: Integral t => t -> [t]
+truncr 0 = []
+truncr n = n : truncr (div n 10)
+
+truncatablePrimes :: Integer
+truncatablePrimes = sum $ take 11 [x | x <- (drop 4 primes),
+                                       all (isPrime) (truncl x),
+                                       all (isPrime) (truncr x)]
 main = print truncatablePrimes
