@@ -11,5 +11,4 @@ sumSpiralDiag s = go 1 0 1 1 0
           | i == x = go (succ i) (a + i) (x + z) y z
           | otherwise = go (succ i) a x y z
 
-
 main = print $ sumSpiralDiag 1001
