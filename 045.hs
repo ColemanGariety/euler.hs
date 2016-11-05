@@ -1,19 +1,17 @@
 isInt :: RealFrac a => a -> Bool
 isInt n = fromInteger (round n) == n
 
-triangles :: [Double]
-triangles = [(n * (n + 1)) / 2 | n <- [1..]]
-
 unpenta :: Floating a => a -> a
 unpenta n = ((sqrt (1 + (24 * n)) + 1) / 6)
 
-unhexa :: Floating a => a -> a
-unhexa n = ((sqrt ((8 * n) + 1)) + 1) / 4
+hexas :: [Double]
+hexas = [n * ((n * 2) - 1) | n <- [1..]]
 
-pentaHexaTriangles :: Integral t => Int -> [t]
-pentaHexaTriangles from = [round t | t <- (drop from triangles),
-                           isInt . unpenta $ t,
-                           isInt . unhexa $ t]
+-- Every hexa is also a triangle
+-- so we check the pentaHexas above 40755
+pentaHexaTriangles :: Integral t => Double -> [t]
+pentaHexaTriangles from = [round h | h <- (dropWhile (<=from) hexas),
+                           isInt . unpenta $ h]
 
 main :: IO ()
-main = print . head . pentaHexaTriangles $ 285
+main = print . head . pentaHexaTriangles $ 40755
