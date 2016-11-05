@@ -8,9 +8,11 @@ rotate (x:xs) = xs ++ [x]
 rotations :: [a] -> [[a]]
 rotations xs = take (length xs) (iterate rotate xs)
 
+-- purposefully backwrads
 toDigits :: Integral x => x -> [x]
 toDigits = unfoldr (\x -> if x == 0 then Nothing else Just (swap (quotRem x 10)))
 
+-- purposefully backwards
 fromDigits :: Integral x => [x] -> x
 fromDigits = foldr (\b a -> (10 * a) + b) 0
          
