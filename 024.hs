@@ -1,10 +1,15 @@
-import Data.List 
+import Data.List
+
+-- this one is necesasrily forwards
+fromDigits :: Integral x => [x] -> x
+fromDigits = foldl (\b a -> (10 * b) + a) 0
 
 factorial n = product [1..n]
+
 permutations' [] _ = []
-permutations' xs n = x : permutations' (delete x xs) (mod n m)
+permutations' xs n = x : permutations' (delete x xs) (snd y)
   where m = factorial $ length xs - 1
-        y = div n m
-        x = xs !! y
- 
-main = print $ permutations' "0123456789" 999999
+        y = quotRem n m
+        x = xs !! (fst y)
+
+main = print . fromDigits $ permutations' [0,1,2,3,4,5,6,7,8,9] 999999
