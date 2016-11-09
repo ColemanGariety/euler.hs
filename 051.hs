@@ -17,11 +17,11 @@ replaceDigits ds xs = map replace [0..9]
                                     then n
                                     else a) (zip [1..(length xs)] xs)
 
-length' n = length (show n)
+primeDigitReplacements n = head . head $ misses
+  where (hits, misses) = span (\f -> length f /= n) . concat $ primeFamilies
+        primeFamilies = [families . toDigits $ x | x <- primes]
+        families xs = [filter (numbers xs) . map fromDigits $ replaceDigits ds xs |
+                       ds <- (subsequences [1..(length xs)])]
+        numbers xs b = (length (show b)) == (length xs) && isPrime b
 
-primeDigitReplacements n = last . sortBy (comparing length) . concat $ take 20000 primeFamilies
-  where primeFamilies = [families . toDigits $ x | x <- primes]
-        seqs ls = tail $ subsequences [1..(length ls)]
-        families xs = [filter isPrime . map fromDigits $ replaceDigits ds xs | ds <- (seqs xs)]
-
-main = print . primeDigitReplacements $ 7
+main = print . primeDigitReplacements $ 8
