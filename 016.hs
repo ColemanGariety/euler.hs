@@ -1,5 +1,7 @@
-digits :: Integral x => x -> [x]
-digits 0 = []
-digits x = x `mod` 10 : digits (x `div` 10)
+import Data.Tuple
+import Data.List
 
-main = print . sum . digits $ 2^1000
+toDigits :: Integral x => x -> [x]
+toDigits = unfoldr (\x -> if x == 0 then Nothing else Just (swap (quotRem x 10)))
+
+main = print . sum . toDigits $ 2^1000
