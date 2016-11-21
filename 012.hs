@@ -1,11 +1,13 @@
+import Data.Numbers.Primes
+
 -- 4200 -> [2, 2, 2, 3, 5, 5, 7]
 -- turns a number in to the unique factors which compose it
 decompose :: Int -> [Int]
-decompose n = go 2 n
-  where go divisor number
-          | (divisor ^ 2) > number = [number]
-          | (number `mod` divisor) == 0 = divisor : go divisor (number `quot` divisor)
-          | otherwise = go (divisor + 1) number
+decompose n = factor primes n
+  where factor (p:ps) n
+          | (p*p) > n = [n]
+          | mod n p == 0 = p : (factor (p:ps) (div n p))
+          | otherwise = factor ps n
 
 -- [2, 2, 2, 3, 5, 5, 7] -> [1,2,1,3]
 -- unzips the decomposed number into the counts
@@ -22,7 +24,7 @@ factorialCounts (x:xs) = go x xs [1]
 -- 4200 -> [2, 2, 2, 3, 5, 5, 7] -> [1,2,1,3] -> 48
 -- gets the number of divisors for a number via decomposition + fact sig
 tau :: Int -> Int
-tau n = foldl (\a count -> a * (1 + count)) 1 (factorialCounts . decompose $ n)
+tau n = foldl (\a count -> a * (1 + count)) 1 (factorialCounts $ decompose n)
 
 -- Incrememnt x by 1 until the number of divisors (by tau function) exceeds 500 
 triangleWithDivisors cap = [triangle | x <- [1..],
