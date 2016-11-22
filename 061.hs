@@ -9,6 +9,7 @@ polygonals s = [polygonal s n | n <- [1..]]
 figurates :: [(Int, Int)]
 figurates = concat [map (\a -> ((round s), a)) (dropWhile (<=10^3) (takeWhile (<10^4) (polygonals s))) | s <- [3..8]]
 
+cyclicalChain :: (Integral a, Eq a1) => Int -> [(a1, a)] -> [a]
 cyclicalChain size figurates@(r:rs) = go [r] rs []
   where go [] (r:rs) tried = go [r] rs []
         go chain@((s,l):cs) rem tried = if length chain == size && canClose chain
