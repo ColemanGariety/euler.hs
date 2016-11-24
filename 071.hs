@@ -1,8 +1,5 @@
-import Data.Ratio
+orderedFractions :: RealFrac a => a -> (Integer, a) -> a
+orderedFractions cap (a,b) = (fromInteger (((((floor ((cap - 5) / b)) * (round b)) + 5) * a) - 1)) / b
 
-farey :: Integral t => Ratio t -> Ratio t -> t -> t
-farey a b cap = let a' = (numerator a + numerator b) % (denominator a + denominator b)
-                in if denominator a' <= cap then farey a' b cap else numerator a
-    
 main :: IO ()
-main = print $ farey (0%1) (3%7) 1000000
+main = print . round $ orderedFractions 1000000 (3,7)

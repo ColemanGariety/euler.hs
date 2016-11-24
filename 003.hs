@@ -1,7 +1,11 @@
-primeFactors :: Integer -> [Integer]
-primeFactors 1 = []
-primeFactors n
-  | factors == [] = [n]
-  | otherwise = factors ++ primeFactors (n `div` (head factors))
-  where factors = take 1 $ filter (\x -> (n `mod` x) == 0) [2 .. n-1]
-main = print (last (primeFactors 600851475143))
+import Data.Numbers.Primes
+
+decompose :: Int -> [Int]
+decompose n = factor primes n
+  where factor (p:ps) n
+          | (p*p) > n = [n]
+          | mod n p == 0 = p : (factor (p:ps) (div n p))
+          | otherwise = factor ps n
+
+main :: IO ()
+main = print (last (decompose 600851475143))

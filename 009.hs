@@ -23,4 +23,5 @@ specialTriplet sum0 = go a0 where
       then round (a * b * (sum - b - a))
       else go (a - 1)
 
+main :: IO ()
 main = print $ specialTriplet 1000

@@ -1,1 +1,2 @@
-main = print . length $ [1 | a <- [5,(5-4)..0], b <- [a,(a-3)..0], c <- [b,(b-2)..0]]
+build x = (map sum (zipWith drop [0..] x) ++ [1]) : x
+main = print $ (sum $ head $ iterate build [] !! 100) - 1
