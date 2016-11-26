@@ -11,12 +11,12 @@
 -- My implementation is a zillion times faster:
 
 isInt :: RealFrac a => a -> Bool
-isInt sum = sum == fromInteger (round sum)
+isInt sum = sum == fromIntegral (round sum)
 
-specialTriplet :: Integer -> Integer
+specialTriplet :: Int -> Int
 specialTriplet sum0 = go a0 where
-  a0 = fromInteger (quot sum0 3)
-  sum = fromInteger sum0
+  a0 = fromIntegral (quot sum0 3)
+  sum = fromIntegral sum0
   go a =
     let b = ((sum^2 / 2) - (sum * a)) / (sum - a) in
     if isInt b
