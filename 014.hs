@@ -7,5 +7,4 @@ syrs n = a
           syr x = if y <= n then 1 + a ! y else 1 + syr y
             where y = if even x then x `div` 2 else 3 * x + 1
  
-main = 
-    print . maximumBy (comparing snd) . assocs . syrs $ 1000000
+main = print . fst . maximumBy (comparing snd) . assocs . syrs $ 1000000
